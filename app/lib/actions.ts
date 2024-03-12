@@ -9,3 +9,13 @@ export async function signIn() {
 export async function signOut() {
   return auth.signOut();
 }
+
+export async function createTopic() {
+  // revalidate home page
+}
+export async function createPost() {
+  // revalidate that specific topic page
+}
+export async function createComment() {
+  // revalidate that specific post page
+}
