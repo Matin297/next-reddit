@@ -1,4 +1,4 @@
-const pathnames = {
+export const pathnames = {
   home() {
     return "/";
   },
