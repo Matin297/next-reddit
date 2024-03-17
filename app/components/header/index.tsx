@@ -20,7 +20,7 @@ export default async function Header() {
 
       <NavbarContent justify="center">
         <NavbarItem>
-          <Input color="primary" variant="bordered" placeholder="search..." />
+          <Input variant="bordered" placeholder="search..." />
         </NavbarItem>
       </NavbarContent>
 
