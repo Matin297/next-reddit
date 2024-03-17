@@ -1,3 +1,36 @@
+"use client";
+
+import { useFormState } from "react-dom";
+import { Input, Textarea, Button } from "@nextui-org/react";
+import { createTopic } from "@/app/lib/actions";
+import Alert from "@/app/components/alert";
+
 export default function TopicCreation() {
-  return <p>Here is the page where we make new topics come to life</p>;
+  const [state, action] = useFormState(createTopic, {});
+
+  return (
+    <form className="space-y-6 max-w-lg mx-auto" action={action}>
+      <Alert message={state.message} />
+      <h2 className="font-semibold">Topic</h2>
+      <Input
+        variant="bordered"
+        label="Title"
+        name="slug"
+        required
+        isInvalid={Boolean(state.errors?.slug)}
+        errorMessage={state.errors?.slug?.join(", ")}
+      />
+      <Textarea
+        variant="bordered"
+        label="Description"
+        name="description"
+        required
+        isInvalid={Boolean(state.errors?.description)}
+        errorMessage={state.errors?.description?.join(", ")}
+      />
+      <Button color="primary" className="w-full" type="submit">
+        Submit
+      </Button>
+    </form>
+  );
 }
