@@ -10,7 +10,8 @@ import { pathnames } from "@/app/lib/paths";
 
 const CreateTopicSchema = z.object({
   slug: z.string().regex(/^[a-z-]{3,}$/, {
-    message: "Must be a combination of letters/dashed of at least 3 characters",
+    message:
+      "Must be a combination of lowercase letters or dashed of at least 3 characters",
   }),
   description: z.string().min(10),
 });
