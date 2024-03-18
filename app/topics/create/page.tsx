@@ -4,6 +4,7 @@ import { useFormState } from "react-dom";
 import { Input, Textarea, Button } from "@nextui-org/react";
 import { createTopic } from "@/app/lib/actions";
 import Alert from "@/app/components/alert";
+import FormButton from "@/app/components/form-button";
 
 export default function TopicCreation() {
   const [state, action] = useFormState(createTopic, {});
@@ -28,9 +29,7 @@ export default function TopicCreation() {
         isInvalid={Boolean(state.errors?.description)}
         errorMessage={state.errors?.description?.join(", ")}
       />
-      <Button color="primary" className="w-full" type="submit">
-        Submit
-      </Button>
+      <FormButton />
     </form>
   );
 }
