@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormState } from "react-dom";
-import { Input, Textarea, Button } from "@nextui-org/react";
+import { Input, Textarea } from "@nextui-org/react";
 import { createTopic } from "@/app/lib/actions";
 import Alert from "@/app/components/alert";
 import FormButton from "@/app/components/form-button";
