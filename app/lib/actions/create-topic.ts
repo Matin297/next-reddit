@@ -28,10 +28,9 @@ export async function createTopic(
   _: TopicFormState,
   formData: FormData
 ): Promise<TopicFormState> {
-  const validationResult = CreateTopicSchema.safeParse({
-    slug: formData.get("slug"),
-    description: formData.get("description"),
-  });
+  const validationResult = CreateTopicSchema.safeParse(
+    Object.fromEntries(formData.entries())
+  );
 
   if (!validationResult.success) {
     return {
