@@ -16,6 +16,7 @@ export default async function TopicList() {
               underline="hover"
               as={NextLink}
               href={pathnames.topic(topic.slug)}
+              className="capitalize"
             >
               {topic.slug}
             </Link>
