@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Button } from "@nextui-org/react";
-import { pathnames } from "@/app/lib/paths";
 import { PlusIcon } from "@heroicons/react/24/outline";
+import { pathnames } from "@/app/lib/paths";
+import { fetchPostsBySlug } from "@/app/lib/data";
+import PostList from "@/app/components/topic/post-list";
 
 interface TopicProps {
   params: {
@@ -11,10 +13,8 @@ interface TopicProps {
 
 export default function Topic({ params: { slug } }: TopicProps) {
   return (
-    <section className="flex">
-      <ul className="flex-1">
-        <li>Here goes the list of posts</li>
-      </ul>
+    <section className="flex gap-4">
+      <PostList fetchPosts={fetchPostsBySlug.bind(null, slug)} />
       <aside className="space-y-4 basis-1/4 flex flex-col">
         <Button
           as={Link}
