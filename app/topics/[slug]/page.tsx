@@ -4,6 +4,7 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { pathnames } from "@/app/lib/paths";
 import { fetchPostsBySlug } from "@/app/lib/data";
 import PostList from "@/app/components/topic/post-list";
+import TopicDescription from "@/app/components/topic/description";
 
 interface TopicProps {
   params: {
@@ -25,10 +26,7 @@ export default function Topic({ params: { slug } }: TopicProps) {
           <PlusIcon width={20} />
           Create Post
         </Button>
-        <section className="border p-3 rounded-lg">
-          <h2 className="text-lg font-semibold capitalize mb-4">{slug}</h2>
-          <p>Here goes the topic description</p>
-        </section>
+        <TopicDescription slug={slug} />
       </aside>
     </section>
   );
