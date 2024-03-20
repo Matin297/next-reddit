@@ -10,6 +10,19 @@ export async function fetchTopics() {
   }
 }
 
+export async function fetchTopicBySlug(slug: string) {
+  try {
+    const topic = await db.topic.findFirst({
+      where: {
+        slug,
+      },
+    });
+    return topic;
+  } catch (error) {
+    throw new Error("Failed to fetch topic!");
+  }
+}
+
 export type EnhancedPostItem = Awaited<
   ReturnType<typeof fetchPostsBySlug>
 >[number];
