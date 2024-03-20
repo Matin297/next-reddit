@@ -28,7 +28,7 @@ export default async function PostList({ fetchPosts }: PostListProps) {
             <LinkIcon width={15} className="text-slate-500" />
             <h3 className="text-md font-semibold">{post.title}</h3>
           </Link>
-          <p>{post.content.substring(20)}</p>
+          <p>{post.content.substring(0, 150)}...</p>
           <section className="flex justify-end gap-4">
             <span className="space-x-2">
               <span className="text-slate-500 text-sm">By</span>
