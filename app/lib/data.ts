@@ -1,4 +1,3 @@
-import { Post } from "@prisma/client";
 import { db } from "@/app/lib/prisma";
 
 export async function fetchTopics() {
@@ -15,6 +14,9 @@ export async function fetchTopicBySlug(slug: string) {
     const topic = await db.topic.findFirst({
       where: {
         slug,
+      },
+      select: {
+        description: true,
       },
     });
     return topic;
