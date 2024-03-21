@@ -48,3 +48,25 @@ export async function fetchPostsBySlug(slug?: string) {
     throw new Error("Failed to fetch posts!");
   }
 }
+
+export async function fetchPostById(id: string) {
+  try {
+    const post = await db.post.findFirst({
+      where: {
+        id,
+      },
+      select: {
+        title: true,
+        content: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    return post;
+  } catch (error) {
+    throw new Error("Failed to fetch post!");
+  }
+}
