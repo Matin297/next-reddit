@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { db } from "@/app/lib/prisma";
 
 export async function fetchTopics() {
@@ -70,3 +71,27 @@ export async function fetchPostById(id: string) {
     throw new Error("Failed to fetch post!");
   }
 }
+
+export type EnhancedCommentItem = Awaited<
+  ReturnType<typeof fetchComments>
+>[number];
+
+export const fetchComments = cache(async (postId: string) => {
+  try {
+    const comments = await db.comment.findMany({
+      where: {
+        postId,
+      },
+      include: {
+        user: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+    return comments;
+  } catch (error) {
+    throw new Error("Failed to fetch comments!");
+  }
+});
