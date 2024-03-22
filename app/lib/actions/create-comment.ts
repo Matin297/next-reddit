@@ -8,26 +8,34 @@ import { pathnames } from "@/app/lib/paths";
 
 const CreateCommentSchema = z
   .object({
-    slug: z.string(),
     postId: z.string(),
     content: z.string().min(3),
+    parentId: z.string(),
   })
-  .required();
+  .partial({
+    parentId: true,
+  });
 
 interface CommentFormState {
   message?: string;
   errors?: {
     content?: string[];
   };
+  status?: "success" | "failed";
 }
 
-export async function createComment(_: CommentFormState, formData: FormData) {
+export async function createComment(
+  _: CommentFormState,
+  formData: FormData
+): Promise<CommentFormState> {
   const validationResult = CreateCommentSchema.safeParse(
     Object.fromEntries(formData.entries())
   );
 
   if (!validationResult.success) {
+    console.log(validationResult.error.flatten().fieldErrors);
     return {
+      status: "failed",
       message: "Validation Error!",
       errors: validationResult.error.flatten().fieldErrors,
     };
@@ -37,11 +45,12 @@ export async function createComment(_: CommentFormState, formData: FormData) {
 
   if (!data || !data.user || !data.user.id) {
     return {
+      status: "failed",
       message: "Unauthenticated Request!",
     };
   }
 
-  const { slug, postId, content } = validationResult.data;
+  const { postId, content, parentId } = validationResult.data;
 
   try {
     await db.comment.create({
@@ -49,16 +58,37 @@ export async function createComment(_: CommentFormState, formData: FormData) {
         postId,
         content,
         userId: data.user.id,
+        ...(parentId && { parentId }),
       },
     });
   } catch (error) {
     return {
+      status: "failed",
       message: "Server Error: Failed to add the comment!",
     };
   }
 
-  // revalidate that specific post page
-  revalidatePath(pathnames.post(slug, postId));
+  const topic = await db.topic.findFirst({
+    where: {
+      posts: {
+        some: {
+          id: postId,
+        },
+      },
+    },
+  });
 
-  return {};
+  if (!topic) {
+    return {
+      status: "failed",
+      message: "Invalid Post!",
+    };
+  }
+
+  // revalidate that specific post page
+  revalidatePath(pathnames.post(topic.slug, postId));
+
+  return {
+    status: "success",
+  };
 }
