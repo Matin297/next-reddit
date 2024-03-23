@@ -1,7 +1,8 @@
-import { Divider } from "@nextui-org/react";
+import { Suspense } from "react";
 import Details from "@/app/components/post/details";
 import CommentForm from "@/app/components/post/comment-form";
 import CommentList from "@/app/components/post/comment-list";
+import CommentListSkeleton from "@/app/components/post/comment-list-skeleton";
 
 interface PostDetailsProps {
   params: {
@@ -15,7 +16,9 @@ export default function PostDetails({ params: { id } }: PostDetailsProps) {
     <section className="space-y-4">
       <Details postID={id} />
       <CommentForm mode="comment" postID={id} />
-      <CommentList postID={id} />
+      <Suspense fallback={<CommentListSkeleton />}>
+        <CommentList postID={id} />
+      </Suspense>
     </section>
   );
 }
