@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import {
   Input,
@@ -8,6 +9,7 @@ import {
 } from "@nextui-org/react";
 import { pathnames } from "@/app/lib/paths";
 import Profile from "./profile";
+import Search from "./search";
 
 export default async function Header() {
   return (
@@ -20,7 +22,9 @@ export default async function Header() {
 
       <NavbarContent justify="center">
         <NavbarItem>
-          <Input variant="bordered" placeholder="search..." />
+          <Suspense>
+            <Search />
+          </Suspense>
         </NavbarItem>
       </NavbarContent>
 
