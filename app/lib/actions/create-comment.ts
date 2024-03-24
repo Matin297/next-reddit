@@ -21,7 +21,7 @@ interface CommentFormState {
   errors?: {
     content?: string[];
   };
-  status?: "success" | "failed";
+  lastSuccessfulSubmit?: number;
 }
 
 export async function createComment(
@@ -33,9 +33,7 @@ export async function createComment(
   );
 
   if (!validationResult.success) {
-    console.log(validationResult.error.flatten().fieldErrors);
     return {
-      status: "failed",
       message: "Validation Error!",
       errors: validationResult.error.flatten().fieldErrors,
     };
@@ -45,7 +43,6 @@ export async function createComment(
 
   if (!data || !data.user || !data.user.id) {
     return {
-      status: "failed",
       message: "Unauthenticated Request!",
     };
   }
@@ -63,7 +60,6 @@ export async function createComment(
     });
   } catch (error) {
     return {
-      status: "failed",
       message: "Server Error: Failed to add the comment!",
     };
   }
@@ -80,7 +76,6 @@ export async function createComment(
 
   if (!topic) {
     return {
-      status: "failed",
       message: "Invalid Post!",
     };
   }
@@ -89,6 +84,6 @@ export async function createComment(
   revalidatePath(pathnames.post(topic.slug, postId));
 
   return {
-    status: "success",
+    lastSuccessfulSubmit: Date.now(),
   };
 }

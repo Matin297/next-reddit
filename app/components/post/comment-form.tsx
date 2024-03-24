@@ -24,14 +24,14 @@ export default function CommentForm({
   const [state, action] = useFormState(createComment, {});
 
   useEffect(() => {
-    if (state.status === "success") {
+    if (state.lastSuccessfulSubmit) {
       formRef.current?.reset();
 
       if (mode === "reply") {
         setIsOpen(false);
       }
     }
-  }, [state.status, mode]);
+  }, [state.lastSuccessfulSubmit, mode]);
 
   if (!isOpen && mode === "reply") {
     return (
