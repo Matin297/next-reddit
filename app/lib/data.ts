@@ -97,6 +97,31 @@ export async function fetchPostById(id: string) {
   }
 }
 
+export async function searchPosts(query: string) {
+  try {
+    const posts = await db.post.findMany({
+      where: {
+        OR: [
+          { title: { contains: query, mode: "insensitive" } },
+          { content: { contains: query, mode: "insensitive" } },
+        ],
+      },
+      include: {
+        topic: { select: { slug: true } },
+        user: { select: { name: true } },
+        _count: {
+          select: {
+            comments: true,
+          },
+        },
+      },
+    });
+    return posts;
+  } catch (error) {
+    throw new Error("Failed to fetch comments!");
+  }
+}
+
 export type EnhancedCommentItem = Awaited<
   ReturnType<typeof fetchComments>
 >[number];
