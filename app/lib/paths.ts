@@ -14,4 +14,7 @@ export const pathnames = {
   postCreation(slug: string) {
     return `/topics/${slug}/posts/create`;
   },
+  search(query: string) {
+    return `/search/?q=${query}`;
+  },
 };
