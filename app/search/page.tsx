@@ -2,7 +2,8 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { searchPosts } from "@/app/lib/data";
 import { pathnames } from "@/app/lib/paths";
-import PostList from "@/app/components/topic/post-list";
+import PostList from "@/app/components/post-list";
+import PostListSkeleton from "@/app/components/post-list-skeleton";
 
 interface SearchPageProps {
   searchParams: {
@@ -24,7 +25,7 @@ export default function SearchPage({ searchParams: { q } }: SearchPageProps) {
         </span>
         :
       </h2>
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<PostListSkeleton />}>
         <PostList fetchPosts={searchPosts.bind(null, q)} />
       </Suspense>
     </section>

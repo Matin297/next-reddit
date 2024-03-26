@@ -1,9 +1,11 @@
+import { Suspense } from "react";
 import Link from "next/link";
 import { Button } from "@nextui-org/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { pathnames } from "@/app/lib/paths";
 import { fetchPostsBySlug } from "@/app/lib/data";
-import PostList from "@/app/components/topic/post-list";
+import PostList from "@/app/components/post-list";
+import PostListSkeleton from "@/app/components/post-list-skeleton";
 import TopicDescription from "@/app/components/topic/description";
 
 interface TopicProps {
@@ -15,7 +17,9 @@ interface TopicProps {
 export default function Topic({ params: { slug } }: TopicProps) {
   return (
     <section className="flex gap-4">
-      <PostList fetchPosts={fetchPostsBySlug.bind(null, slug)} />
+      <Suspense fallback={<PostListSkeleton />}>
+        <PostList fetchPosts={fetchPostsBySlug.bind(null, slug)} />
+      </Suspense>
       <aside className="space-y-4 basis-1/4 flex flex-col">
         <Button
           as={Link}
