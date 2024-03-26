@@ -12,6 +12,7 @@ interface PostListProps {
 }
 
 export default async function PostList({ fetchPosts }: PostListProps) {
+  await new Promise((r) => setTimeout(r, 5000));
   const posts = await fetchPosts();
 
   return (
